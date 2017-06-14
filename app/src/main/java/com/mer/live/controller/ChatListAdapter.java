@@ -25,6 +25,10 @@ public class ChatListAdapter extends BaseAdapter {
         return msgList.size();
     }
 
+    public String getuserName(int i) {
+        return msgList.get(i).getUserInfo().getName();
+    }
+
     @Override
     public Object getItem(int position) {
         return msgList.get(position);

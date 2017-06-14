@@ -26,8 +26,8 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:scaleType="fitXY"
             android:src="@drawable/meiyan" />
 
@@ -44,13 +44,13 @@
         android:id="@+id/showpre_shexiangtou_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="36dp"
-            android:layout_height="40dp"
+            android:layout_width="26dp"
+            android:layout_height="30dp"
             android:scaleType="fitXY"
             android:src="@drawable/shexiangtou" />
 
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="开启前置摄像头"
+            android:text="开启后置摄像头"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -67,8 +67,9 @@
         android:id="@+id/showpre_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_margin="15dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:gravity="center"
         android:background="#3366CC"
         android:padding="15dp"

@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (room == 0){
                             intent = new Intent(LoginActivity.this, LivePlayActivity.class);
                         }else {
-                            intent = new Intent(LoginActivity.this, LiveShowActivity.class);
+                            intent = new Intent(LoginActivity.this, LiveshowPreActivity.class);
                         }
                             startActivity(intent);
                     }

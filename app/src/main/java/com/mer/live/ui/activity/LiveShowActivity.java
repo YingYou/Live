@@ -1,11 +1,14 @@
 package com.mer.live.ui.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.Camera;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -55,6 +58,7 @@ public class LiveShowActivity extends FragmentActivity implements View.OnClickLi
     private String roomId;
     private StreamingProfile mProfile;
     private MediaStreamingManager mMediaStreamingManager;
+    private SharedPreferences sharedPreferences;
 
 
     @Override
@@ -91,7 +95,8 @@ public class LiveShowActivity extends FragmentActivity implements View.OnClickLi
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 final myDialog myDialog = new myDialog(LiveShowActivity.this);
-                myDialog.setContenttext("皇后");
+
+                myDialog.setContenttext(chatListAdapter.getuserName(i));
                 myDialog.setYesOnclickListener("禁言", new myDialog.onYesOnclickListener() {
                     @Override
                     public void onYesClick() {
@@ -114,6 +119,11 @@ public class LiveShowActivity extends FragmentActivity implements View.OnClickLi
         roomId = "ChatRoom01";
         joinChatRoom(roomId);
 
+        sharedPreferences = getSharedPreferences("setting", Context.MODE_PRIVATE);
+
+        int meiyan = sharedPreferences.getInt("meiyan",0);
+        int shexiangtou = sharedPreferences.getInt("shexiangtou",0);
+
         AspectFrameLayout afl = (AspectFrameLayout) findViewById(R.id.cameraPreview_afl);
         // Decide FULL screen or real size
         afl.setShowMode(AspectFrameLayout.SHOW_MODE.REAL);
@@ -131,8 +141,22 @@ public class LiveShowActivity extends FragmentActivity implements View.OnClickLi
             mProfile.setPublishUrl("rtmp://pili-publish.test.mfc.com.cn/cz-test/test001");
 
             CameraStreamingSetting setting = new CameraStreamingSetting();
-            setting.setCameraId(Camera.CameraInfo.CAMERA_FACING_FRONT)
-                    .setContinuousFocusModeEnabled(true)
+
+            Log.e("sssssssssssssss",meiyan+"//"+shexiangtou);
+
+            if (meiyan == 1){
+                setting.setBuiltInFaceBeautyEnabled(true);
+            }else {
+                setting.setBuiltInFaceBeautyEnabled(false);
+            }
+
+            if (shexiangtou ==1){
+                setting.setCameraId(Camera.CameraInfo.CAMERA_FACING_BACK);
+            }else {
+                setting.setCameraId(Camera.CameraInfo.CAMERA_FACING_FRONT);
+            }
+
+            setting.setContinuousFocusModeEnabled(true)
                     .setCameraPrvSizeLevel(CameraStreamingSetting.PREVIEW_SIZE_LEVEL.MEDIUM)
                     .setCameraPrvSizeRatio(CameraStreamingSetting.PREVIEW_SIZE_RATIO.RATIO_16_9);
             mMediaStreamingManager = new MediaStreamingManager(this, afl, glSurfaceView, AVCodecType.SW_VIDEO_WITH_SW_AUDIO_CODEC);  // soft codec
