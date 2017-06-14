@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">LiveApp</string>
+    <string name="rc_send">发送</string>
+</resources>

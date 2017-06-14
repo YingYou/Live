@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/background" xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
+
+    <com.qiniu.pili.droid.streaming.widget.AspectFrameLayout
+        android:id="@+id/cameraPreview_afl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true">
+        <android.opengl.GLSurfaceView
+            android:id="@+id/cameraPreview_surfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+    </com.qiniu.pili.droid.streaming.widget.AspectFrameLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:src="@mipmap/fake_members"/>
+
+    <com.mer.live.ui.widget.ChatListView
+        android:id="@+id/chat_listview"
+        android:layout_width="230dp"
+        android:layout_height="152dp"
+        android:layout_above="@+id/bottom_bar"
+        android:divider="@null"
+        android:listSelector="@android:color/transparent"
+        android:scrollbars="none"
+        android:transcriptMode="alwaysScroll"/>
+
+    <fragment
+        android:id="@+id/bottom_bar"
+        android:name="com.mer.live.ui.fragment.BottomPanelFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        tools:layout="@layout/fragment_bottombar"/>
+
+    <com.mer.live.ui.animation.HeartLayout
+        android:id="@+id/heart_layout"
+        android:layout_width="86dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="4dp"/>
+</RelativeLayout>
