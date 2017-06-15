@@ -101,6 +101,7 @@ public class LiveShowActivity extends FragmentActivity implements View.OnClickLi
                     @Override
                     public void onYesClick() {
                         myDialog.dismiss();
+//                        http://api.cn.ronghub.com/chatroom/user/gag/add.[format]
                     }
                 });
                 myDialog.setNoOnclickListener("踢出频道", new myDialog.onNoOnclickListener() {

@@ -2,6 +2,7 @@ package com.mer.live.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import com.mer.live.base.LiveKit;
 import com.mer.live.controller.RcLog;
 import com.mer.live.fakeserver.FakeServer;
 import com.mer.live.fakeserver.HttpUtil;
+import com.mer.live.utils.PermissionUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,6 +58,19 @@ public class LoginActivity extends AppCompatActivity {
                 room = 1;
             }
         });
+
+
+        if (PermissionUtil.isLacksOfPermission(PermissionUtil.PERMISSION[0]) ||
+                PermissionUtil.isLacksOfPermission(PermissionUtil.PERMISSION[1]) ||
+                PermissionUtil.isLacksOfPermission(PermissionUtil.PERMISSION[2]) ||
+                PermissionUtil.isLacksOfPermission(PermissionUtil.PERMISSION[3]) ||
+                PermissionUtil.isLacksOfPermission(PermissionUtil.PERMISSION[4]) ||
+                PermissionUtil.isLacksOfPermission(PermissionUtil.PERMISSION[5]) ||
+                PermissionUtil.isLacksOfPermission(PermissionUtil.PERMISSION[6]) ||
+                PermissionUtil.isLacksOfPermission(PermissionUtil.PERMISSION[7])
+                ) {
+            ActivityCompat.requestPermissions(LoginActivity.this, PermissionUtil.PERMISSION, 0x12);
+        }
     }
 
     private void fakeLogin(String id, String password) {
