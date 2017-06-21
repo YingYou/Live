@@ -18,6 +18,7 @@ import com.mer.live.ui.message.GiftMessage;
 import com.mer.live.ui.widget.ChatListView;
 import com.mer.live.ui.widget.InputPanel;
 import com.pili.pldroid.player.PLMediaPlayer;
+import com.pili.pldroid.player.widget.PLVideoTextureView;
 import com.pili.pldroid.player.widget.PLVideoView;
 
 import java.util.Random;
@@ -47,7 +48,7 @@ public class LivePlayActivity extends FragmentActivity implements View.OnClickLi
     private Handler handler = new Handler(this);
     private ChatListAdapter chatListAdapter;
     private String roomId;
-    private PLVideoView mVideoView;
+    private PLVideoTextureView mVideoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,7 @@ public class LivePlayActivity extends FragmentActivity implements View.OnClickLi
     private void startLiveShow() {
         roomId = "ChatRoom01";
         joinChatRoom(roomId);
-         mVideoView =  (PLVideoView) findViewById(R.id.PLVideoView);
+         mVideoView =  (PLVideoTextureView) findViewById(R.id.PLVideoTextureView);
 //        mVideoView = (PLVideoTextureView) findViewById(R.id.PLVideoTextureView);
 //        View loadingView = findViewById(R.id.LoadingView);
 //        mVideoView.setBufferingIndicator(loadingView);

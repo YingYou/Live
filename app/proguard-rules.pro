@@ -19,3 +19,6 @@
 -keep class com.qiniu.pili.droid.streaming.** { *; }
 -keep class com.pili.pldroid.player.** { *; }
 -keep class tv.danmaku.ijk.media.player.** {*;}
+
+-keep class io.vov.utils.** { *; }
+-keep class io.vov.vitamio.** { *; }

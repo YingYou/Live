@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical">
 
         <Button
@@ -34,7 +34,7 @@
             android:layout_width="140dp"
             android:layout_height="41dp"
             android:background="@mipmap/login_button"
-            android:text="电视"
+            android:text="直播"
             android:textColor="#00aeff"
             android:textSize="18sp"/>
 
@@ -45,6 +45,24 @@
             android:layout_marginTop="30dp"
             android:background="@mipmap/login_button"
             android:text="主播"
+            android:textColor="#00aeff"
+            android:textSize="18sp"/>
+        <Button
+            android:id="@+id/btn_vedio"
+            android:layout_width="140dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="30dp"
+            android:background="@mipmap/login_button"
+            android:text="点播"
+            android:textColor="#00aeff"
+            android:textSize="18sp"/>
+        <Button
+            android:id="@+id/btn_pcvedio"
+            android:layout_width="140dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="30dp"
+            android:background="@mipmap/login_button"
+            android:text="PC点播"
             android:textColor="#00aeff"
             android:textSize="18sp"/>
     </LinearLayout>

@@ -1,9 +1,11 @@
 package com.mer.live.ui.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -32,12 +34,17 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnTV;
     private Button btnLive;
     private int room = 0;
+    private Button btnVedio;
+    private SharedPreferences share;
+    private UserInfo user;
+    private Button btnpcVedio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
+         share = getSharedPreferences("live", MODE_PRIVATE);
     }
 
     private void initView() {
@@ -59,6 +66,22 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        btnVedio = (Button) findViewById(R.id.btn_vedio);
+        btnVedio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this,VideoPlayActivity.class));
+            }
+        });
+        btnpcVedio = (Button) findViewById(R.id.btn_pcvedio);
+        btnpcVedio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fakeLogin("张三", "123456");
+                room = 2;
+            }
+        });
+
 
         if (PermissionUtil.isLacksOfPermission(PermissionUtil.PERMISSION[0]) ||
                 PermissionUtil.isLacksOfPermission(PermissionUtil.PERMISSION[1]) ||
@@ -74,85 +97,71 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void fakeLogin(String id, String password) {
-        final UserInfo user = FakeServer.getLoginUser(id, password);
-        FakeServer.getToken(user, new HttpUtil.OnResponse() {
-            @Override
-            public void onResponse(int code, String body) {
-                if (code != 200) {
-                    Toast.makeText(LoginActivity.this, body, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                String token;
-                try {
-                    JSONObject jsonObj = new JSONObject(body);
-                    token = jsonObj.getString("token");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(LoginActivity.this, "Token 解析失败!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                LiveKit.connect(token, new RongIMClient.ConnectCallback() {
-                    @Override
-                    public void onTokenIncorrect() {
-                        RcLog.d(TAG, "connect onTokenIncorrect");
-                        // 检查appKey 与token是否匹配.
+        user = FakeServer.getLoginUser(id, password);
+        String tokenTemp = share.getString("token", "");
+        if (TextUtils.isEmpty(tokenTemp)){
+            FakeServer.getToken(user, new HttpUtil.OnResponse() {
+                @Override
+                public void onResponse(int code, String body) {
+                    if (code != 200) {
+                        Toast.makeText(LoginActivity.this, body, Toast.LENGTH_SHORT).show();
+                        return;
                     }
 
-                    @Override
-                    public void onSuccess(String userId) {
-                        RcLog.d(TAG, "connect onSuccess");
-                        LiveKit.setCurrentUser(user);
+                    String token;
+                    try {
+                        JSONObject jsonObj = new JSONObject(body);
+                        token = jsonObj.getString("token");
+                        SharedPreferences.Editor edit = share.edit(); //编辑文件
+                        edit.putString("token", token);
+                        edit.commit();  //保存数据信息
+                        login(token);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(LoginActivity.this, "Token 解析失败!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+            });
+        }else {
+            login(tokenTemp);
+        }
+
+    }
+
+    private void login(final String token){
+        LiveKit.connect(token, new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+                RcLog.d(TAG, "connect onTokenIncorrect");
+                // 检查appKey 与token是否匹配.
+            }
+
+            @Override
+            public void onSuccess(String userId) {
+                RcLog.d(TAG, "connect onSuccess");
+                LiveKit.setCurrentUser(user);
 
 //                            // Get the stream json from http
 //                            String streamJson = requestStreamJson();
 //                            Log.d("stream_json_str",streamJson);
-                        Intent intent;
-                        if (room == 0){
-                            intent = new Intent(LoginActivity.this, LivePlayActivity.class);
-                        }else {
-                            intent = new Intent(LoginActivity.this, LiveshowPreActivity.class);
-                        }
-                            startActivity(intent);
-                    }
+                Intent intent = null;
+                if (room == 0){
+                    intent = new Intent(LoginActivity.this, LivePlayActivity.class);
+                }else if (room==1){
+                    intent = new Intent(LoginActivity.this, LiveshowPreActivity.class);
+                    intent.putExtra("token",token);
+                }else if (room==2){
+                    intent = new Intent(LoginActivity.this, PcVideoPlayActivity.class);
+                }
+                startActivity(intent);
+            }
 
-                    @Override
-                    public void onError(RongIMClient.ErrorCode errorCode) {
-                        RcLog.d(TAG, "connect onError = " + errorCode);
-                        // 根据errorCode 检查原因.
-                    }
-                });
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                RcLog.d(TAG, "connect onError = " + errorCode);
+                // 根据errorCode 检查原因.
             }
         });
-    }
-
-
-    private String requestStreamJson() {
-        try {
-            // Replace "Your app server" by your app sever url which can get the StreamJson as the SDK's input.
-            HttpURLConnection httpConn = (HttpURLConnection) new URL("rtmp://pili-publish.test.mfc.com.cn/cz-test/test001").openConnection();
-            httpConn.setConnectTimeout(5000);
-            httpConn.setReadTimeout(10000);
-            int responseCode = httpConn.getResponseCode();
-            if (responseCode != HttpURLConnection.HTTP_OK) {
-                return null;
-            }
-            int length = httpConn.getContentLength();
-            if (length <= 0) {
-                return null;
-            }
-            InputStream is = httpConn.getInputStream();
-            byte[] data = new byte[length];
-            int read = is.read(data);
-            is.close();
-            if (read <= 0) {
-                return null;
-            }
-            return new String(data, 0, read);
-        } catch (Exception e) {
-            Toast.makeText(LoginActivity.this, "Network error!", Toast.LENGTH_SHORT);
-        }
-        return null;
     }
 }
