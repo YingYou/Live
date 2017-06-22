@@ -3,11 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="@android:color/transparent"
     android:orientation="vertical">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -21,17 +20,19 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:background="@drawable/rc_editor_bg_selector">
+            android:background="@drawable/msg_back">
 
             <EditText
                 android:id="@+id/input_editor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:paddingLeft="10dp"
                 android:layout_toLeftOf="@+id/input_emoji_btn"
                 android:background="@android:color/transparent"
+                android:hint="跟大家一起讨论吧"
                 android:maxLines="4"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/input_emoji_btn"
@@ -40,23 +41,22 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="5dp"
-                android:src="@drawable/rc_emoji_selector"/>
+                android:src="@drawable/rc_emoji_selector" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/input_send"
-            android:layout_width="wrap_content"
+            android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/input_send_button"
+            android:background="@drawable/send"
             android:enabled="false"
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="@string/rc_send"
             android:textColor="#ffffff"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </LinearLayout>
 
     <com.mer.live.ui.widget.EmojiBoard

@@ -89,8 +89,8 @@ public class LivePlayActivity extends FragmentActivity implements View.OnClickLi
 //        mVideoView = (PLVideoTextureView) findViewById(R.id.PLVideoTextureView);
 //        View loadingView = findViewById(R.id.LoadingView);
 //        mVideoView.setBufferingIndicator(loadingView);
-//        mVideoView.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_ORIGIN);//设置画面预览模式
-//        mVideoView.setDisplayOrientation(90); // 旋转90度
+        mVideoView.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_ORIGIN);//设置画面预览模式
+        mVideoView.setDisplayOrientation(0); // 旋转90度
 //        mVideoView.setMirror(true);//设置播放画面镜像变换
         mVideoView.setVideoPath("rtmp://pili-live-rtmp.test.mfc.com.cn/cz-test/test001");
 

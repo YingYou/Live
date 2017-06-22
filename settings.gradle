@@ -1,2 +1,2 @@
-include ':app', ':InitActivity'
-include ':app', ':imlib'
+include ':app'
+include ':app'

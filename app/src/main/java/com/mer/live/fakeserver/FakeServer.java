@@ -12,12 +12,22 @@ public class FakeServer {
     /**
      * 集成融云应用的唯一标识, 前端后台都需要用到.
      */
-    public static final String APP_KEY = "0vnjpoad0cz5z";
+//    public static final String APP_KEY = "0vnjpoad0cz5z";
 
     /**
      * 务必妥善保存, 不能放在应用端, 否则可以被反编译获得.
      */
-    public static final String APP_SECRET = "NB7XgH8GSvaDf2";
+//    public static final String APP_SECRET = "NB7XgH8GSvaDf2";
+    public static final String APP_KEY = "c9kqb3rdcv9ij";
+
+    /**
+     * 务必妥善保存, 不能放在应用端, 否则可以被反编译获得.
+     */
+    public static final String APP_SECRET = "eKGwoB3Y8s";
+
+//       APP_KEY       c9kqb3rdcv9ij
+//       APP_SECRET     eKGwoB3Y8s
+
 
     private static ArrayMap<String, String> userList;
 

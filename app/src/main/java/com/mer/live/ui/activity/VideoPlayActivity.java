@@ -15,11 +15,11 @@ import android.widget.TextView;
 
 import com.mer.live.R;
 
-import io.vov.vitamio.MediaPlayer;
-import io.vov.vitamio.Vitamio;
-import io.vov.vitamio.widget.CenterLayout;
-import io.vov.vitamio.widget.MediaController;
-import io.vov.vitamio.widget.VideoView;
+import com.mer.live.vitamio.MediaPlayer;
+import com.mer.live.vitamio.Vitamio;
+import com.mer.live.vitamio.widget.CenterLayout;
+import com.mer.live.vitamio.widget.MediaController;
+import com.mer.live.vitamio.widget.VideoView;
 
 /**
  * 播放手机录制视频，支持多种格式

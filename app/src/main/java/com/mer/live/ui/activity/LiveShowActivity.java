@@ -78,6 +78,8 @@ public class LiveShowActivity extends FragmentActivity implements View.OnClickLi
         btnHeart = (ImageView) bottomPanel.getView().findViewById(R.id.btn_heart);
         heartLayout = (HeartLayout) findViewById(R.id.heart_layout);
 
+        btnGift.setVisibility(View.GONE);
+
         chatListAdapter = new ChatListAdapter();
         chatListView.setAdapter(chatListAdapter);
         background.setOnClickListener(this);
@@ -142,8 +144,6 @@ public class LiveShowActivity extends FragmentActivity implements View.OnClickLi
             mProfile.setPublishUrl("rtmp://pili-publish.test.mfc.com.cn/cz-test/test001");
 
             CameraStreamingSetting setting = new CameraStreamingSetting();
-
-            Log.e("sssssssssssssss",meiyan+"//"+shexiangtou);
 
             if (meiyan == 1){
                 setting.setBuiltInFaceBeautyEnabled(true);

@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:visibility="gone"
         android:src="@mipmap/fake_members"/>
 
     <com.mer.live.ui.widget.ChatListView

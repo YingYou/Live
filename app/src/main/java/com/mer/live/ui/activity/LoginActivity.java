@@ -16,6 +16,11 @@ import com.mer.live.controller.RcLog;
 import com.mer.live.fakeserver.FakeServer;
 import com.mer.live.fakeserver.HttpUtil;
 import com.mer.live.utils.PermissionUtil;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.utils.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences share;
     private UserInfo user;
     private Button btnpcVedio;
+    private Button btnShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +87,15 @@ public class LoginActivity extends AppCompatActivity {
                 room = 2;
             }
         });
-
-
+        btnShare = (Button) findViewById(R.id.btn_share);
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(LoginActivity.this).withText("hello")
+                        .setDisplayList(SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.SINA)
+                        .setCallback(umShareListener).open();
+            }
+        });
         if (PermissionUtil.isLacksOfPermission(PermissionUtil.PERMISSION[0]) ||
                 PermissionUtil.isLacksOfPermission(PermissionUtil.PERMISSION[1]) ||
                 PermissionUtil.isLacksOfPermission(PermissionUtil.PERMISSION[2]) ||
@@ -95,7 +108,39 @@ public class LoginActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(LoginActivity.this, PermissionUtil.PERMISSION, 0x12);
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
 
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Log.d("plat","platform"+platform);
+
+            Toast.makeText(LoginActivity.this, platform + " 分享成功!", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(LoginActivity.this,platform + " 分享失败!", Toast.LENGTH_SHORT).show();
+            if(t!=null){
+                Log.d("throw","throw:"+t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(LoginActivity.this,platform + " 分享取消!", Toast.LENGTH_SHORT).show();
+        }
+    };
     private void fakeLogin(String id, String password) {
         user = FakeServer.getLoginUser(id, password);
         String tokenTemp = share.getString("token", "");

@@ -20,5 +20,5 @@
 -keep class com.pili.pldroid.player.** { *; }
 -keep class tv.danmaku.ijk.media.player.** {*;}
 
--keep class io.vov.utils.** { *; }
--keep class io.vov.vitamio.** { *; }
+-keep class com.mer.live.utils.** { *; }
+-keep class com.mer.live.vitamio.** { *; }
