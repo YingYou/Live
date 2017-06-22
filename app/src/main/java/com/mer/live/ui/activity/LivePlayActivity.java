@@ -1,11 +1,15 @@
 package com.mer.live.ui.activity;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -49,10 +53,15 @@ public class LivePlayActivity extends FragmentActivity implements View.OnClickLi
     private ChatListAdapter chatListAdapter;
     private String roomId;
     private PLVideoTextureView mVideoView;
+    private ImageView mCross;
+    private boolean isPortrait=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,
+                WindowManager.LayoutParams. FLAG_FULLSCREEN);
         setContentView(R.layout.activity_live_play);
         LiveKit.addEventHandler(handler);
         initView();
@@ -66,12 +75,14 @@ public class LivePlayActivity extends FragmentActivity implements View.OnClickLi
         btnGift = (ImageView) bottomPanel.getView().findViewById(R.id.btn_gift);
         btnHeart = (ImageView) bottomPanel.getView().findViewById(R.id.btn_heart);
         heartLayout = (HeartLayout) findViewById(R.id.heart_layout);
+        mCross = (ImageView) findViewById(R.id.pc_videoplay_cross);
 
         chatListAdapter = new ChatListAdapter();
         chatListView.setAdapter(chatListAdapter);
         background.setOnClickListener(this);
         btnGift.setOnClickListener(this);
         btnHeart.setOnClickListener(this);
+        mCross.setOnClickListener(this);
         bottomPanel.setInputPanelListener(new InputPanel.InputPanelListener() {
             @Override
             public void onSendClick(String text) {
@@ -142,6 +153,18 @@ public class LivePlayActivity extends FragmentActivity implements View.OnClickLi
             });
             GiftMessage msg = new GiftMessage("1", "为您点赞");
             LiveKit.sendMessage(msg);
+        }else if (v.equals(mCross)) {
+            if (isPortrait) {//设置横屏
+                isPortrait = false;
+                mCross.setImageResource(R.drawable.small);
+                mVideoView.setDisplayOrientation(-90); // 旋转90度
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            } else {
+                isPortrait = true;
+                mCross.setImageResource(R.drawable.big);
+                mVideoView.setDisplayOrientation(0); // 旋转-90度
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
         }
     }
 

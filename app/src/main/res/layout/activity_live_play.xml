@@ -43,4 +43,16 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="4dp"/>
+
+
+    <ImageView
+        android:id="@+id/pc_videoplay_cross"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/big" />
 </RelativeLayout>
