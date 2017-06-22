@@ -8,12 +8,12 @@ android {
         applicationId "com.mer.live"
         minSdkVersion 18
         targetSdkVersion 23
-        versionCode 2
-        versionName "2.0"
+        versionCode 3
+        versionName "2.1"
 
         multiDexEnabled true
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+            abiFilters "arm64-v8a", "armeabi-v7a", "x86"
         }
     }
     buildTypes {
@@ -43,4 +43,5 @@ dependencies {
     compile 'com.github.hust201010701:XDanmuku:master-SNAPSHOT'
     compile 'com.apkfuns.logutils:library:1.2.2'
     compile files('libs/umeng_social_api.jar')
+    compile project(':InitActivity')
 }
