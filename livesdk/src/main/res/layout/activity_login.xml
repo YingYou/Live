@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/login_background"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80dp"
+        android:src="@mipmap/login_logo" />
+
+    <TextView
+        android:id="@+id/btn_h5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:text="选择直播源"
+        android:textColor="#00aeff"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_tv"
+            android:layout_width="140dp"
+            android:layout_height="41dp"
+            android:background="@mipmap/login_button"
+            android:text="链接H5"
+            android:textColor="#00aeff"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_chat1"
+            android:layout_width="140dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="20dp"
+            android:background="@mipmap/login_button"
+            android:text="聊天"
+            android:textColor="#00aeff"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_chat2"
+            android:layout_width="140dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="20dp"
+            android:background="@mipmap/login_button"
+            android:text="会话列表"
+            android:textColor="#00aeff"
+            android:textSize="18sp" />
+    </LinearLayout>
+</LinearLayout>

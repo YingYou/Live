@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/background" xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#000">
+
+    <com.qiniu.pili.droid.streaming.widget.AspectFrameLayout
+        android:id="@+id/cameraPreview_afl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true">
+        <android.opengl.GLSurfaceView
+            android:id="@+id/cameraPreview_surfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+    </com.qiniu.pili.droid.streaming.widget.AspectFrameLayout>
+
+    <com.xiaomeijr.mhdxh.ui.widget.ChatListView
+        android:id="@+id/chat_listview"
+        android:layout_width="match_parent"
+        android:layout_height="152dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="80dp"
+        android:divider="@null"
+        android:listSelector="@android:color/transparent"
+        android:scrollbars="none"
+        android:transcriptMode="alwaysScroll"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+
+        <fragment
+            android:id="@+id/bottom_bar"
+            android:name="com.xiaomeijr.mhdxh.ui.fragment.BottomPanelFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            tools:layout="@layout/fragment_bottombar"/>
+    </LinearLayout>
+
+    <com.xiaomeijr.mhdxh.ui.animation.HeartLayout
+        android:id="@+id/heart_layout"
+        android:layout_width="86dp"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="4dp"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_below="@+id/heart_layout"
+        android:layout_centerHorizontal="true">
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/btn_guanbi"
+            />
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp"/>
+        <ImageView
+            android:id="@+id/btn_meiyan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/btn_meiyan_h"
+            />
+        <ImageView
+            android:id="@+id/btn_shanguang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/btn_shanguang_h"
+            />
+        <ImageView
+            android:id="@+id/btn_shexiangtou"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/shexiangtou2"
+            />
+
+        <ImageView
+            android:id="@+id/btn_zimu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/btn_danmu_n" />
+
+        <TextView
+            android:id="@+id/text_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:background="@drawable/num_back"
+            android:layout_marginLeft="5dp"
+            android:padding="10dp"
+            android:textSize="13sp"
+            android:text="人数：0"
+            android:layout_marginRight="10dp"
+            />
+    </LinearLayout>
+    <com.orzangleli.xdanmuku.DanmuContainerView
+        android:id="@+id/danmuContainerView"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="80dp"
+        />
+</RelativeLayout>

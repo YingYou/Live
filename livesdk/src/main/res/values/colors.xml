@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="mediacontroller_bg_pressed">#ff53c1bd</color>
+    <color name="mediacontroller_bg">#99000000</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black_back_transparent">#AA000000</color>
+    <color name="line_port_back">#35dddddd</color>
+    <color name="blue">#3366cc</color>
+    <color name="text_black">#191919</color>
+    <color name="text_gray">#999999</color>
+</resources>
