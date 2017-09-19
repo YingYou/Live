@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/button_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp">
+
+        <ImageView
+            android:id="@+id/btn_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/live_input"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/btn_heart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/live_heart"
+            android:visibility="gone" />
+
+        <com.xiaomeijr.mhdxh.ui.widget.InputPanel_pc
+            android:id="@+id/input_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/space"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/btn_gift"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="8dp"
+                android:background="@color/line_port_back" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btn_gift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/btn_flower_huang" />
+    </RelativeLayout>
+
+
+</LinearLayout>
