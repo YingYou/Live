@@ -6,13 +6,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,7 +71,7 @@ import io.rong.message.TextMessage;
 /**
  * 手机直播播放端界面
  */
-public class LivePlayActivity extends BaseActivity implements View.OnClickListener, Handler.Callback,
+public class LivePlayActivity extends BaseActivity implements View.OnKeyListener,View.OnClickListener, Handler.Callback,
         PLMediaPlayer.OnPreparedListener,
         PLMediaPlayer.OnInfoListener,
         PLMediaPlayer.OnCompletionListener,
@@ -115,6 +119,8 @@ public class LivePlayActivity extends BaseActivity implements View.OnClickListen
         }
     };
     private Handler checkremoveHandler;
+    private EditText inputEt;
+    private View mView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,14 +133,18 @@ public class LivePlayActivity extends BaseActivity implements View.OnClickListen
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().setFormat(PixelFormat.TRANSLUCENT);
         return R.layout.activity_live_play;
     }
 
     @Override
     protected void initUI() {
+
         background = (ViewGroup) findViewById(R.id.background);
+        mView = findViewById(R.id.liveplay_view);
         chatListView = (ChatListView) findViewById(R.id.chat_listview);
         bottomPanel = (BottomPanelFragment_liveplay) getSupportFragmentManager().findFragmentById(R.id.bottom_bar);
+        inputEt = (EditText) bottomPanel.getView().findViewById(R.id.input_editor);
         btnGift = (ImageView) bottomPanel.getView().findViewById(R.id.btn_gift);
         btnHeart = (ImageView) bottomPanel.getView().findViewById(R.id.btn_heart);
         btnShare = (ImageView) bottomPanel.getView().findViewById(R.id.btn_share);
@@ -149,7 +159,7 @@ public class LivePlayActivity extends BaseActivity implements View.OnClickListen
         mLike = (TextView) findViewById(R.id.tv_guanzhu);
 
         GlideImgManager.glideLoader(this, "http://img.besoo.com/file/201705/27/0925236345908.png", R.mipmap.ic_launcher, R.mipmap.ic_launcher, mHead, 0);
-
+        inputEt.setOnKeyListener(this);
         background.setOnClickListener(this);
         btnGift.setOnClickListener(this);
         btnHeart.setOnClickListener(this);
@@ -168,43 +178,6 @@ public class LivePlayActivity extends BaseActivity implements View.OnClickListen
             }
         });
 
-//        chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-//                final myDialog myDialog = new myDialog(LivePlayActivity.this);
-//
-//                if (!chatListAdapter.getuserId(i).equals(rUserInfo.getUserId())) {
-//                    myDialog.setContenttext(chatListAdapter.getuserName(i));
-//                    myDialog.setImg(chatListAdapter.getuserImg(i));
-//                    myDialog.setYesOnclickListener("禁言", new myDialog.onYesOnclickListener() {
-//                        @Override
-//                        public void onYesClick() {
-//                            opolUserId = chatListAdapter.getuserId(i);
-//                            Map map = new HashMap();
-//                            map.put("type", "0");
-//                            map.put("token", rUserInfo.getToken());
-//                            map.put("beUserId", chatListAdapter.getuserId(i));
-//                            request.doPostRequest(6, true, Constant.GetQuanxian, map);
-//                            myDialog.dismiss();
-//                        }
-//                    });
-//                    myDialog.setNoOnclickListener("踢出频道", new myDialog.onNoOnclickListener() {
-//                        @Override
-//                        public void onNoClick() {
-//                            //踢出
-//                            opolUserId = chatListAdapter.getuserId(i);
-//                            Map map = new HashMap();
-//                            map.put("type", "1");
-//                            map.put("token", rUserInfo.getToken());
-//                            map.put("beUserId", chatListAdapter.getuserId(i));
-//                            request.doPostRequest(7, true, Constant.GetQuanxian, map);
-//                            myDialog.dismiss();
-//                        }
-//                    });
-//                    myDialog.show();
-//                }
-//            }
-//        });
 
     }
 
@@ -498,12 +471,30 @@ public class LivePlayActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public boolean onError(PLMediaPlayer plMediaPlayer, int i) {
+        LogUtils.d("错误码："+i);
+        final myAlertDialog mErrorDialog = new myAlertDialog(LivePlayActivity.this);
+        if (i==-2100){
+            mErrorDialog.setContenttext("直播已结束");
+        }else {
+            mErrorDialog.setContenttext("无直播资源");
+        }
+        mErrorDialog.setShowNo(false);
+        mErrorDialog.setYesOnclickListener("确定", new myAlertDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                mErrorDialog.dismiss();
+                finish();
+            }
+        });
+        mErrorDialog.show();
         return false;
     }
 
     @Override
     public boolean onInfo(PLMediaPlayer plMediaPlayer, int i, int i1) {
-        return false;
+        if (i == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START)
+            mView.setVisibility(View.GONE);
+        return true;
     }
 
     @Override
@@ -567,10 +558,12 @@ public class LivePlayActivity extends BaseActivity implements View.OnClickListen
                 GlideImgManager.glideLoader(LivePlayActivity.this, mZhuBoInfo.getUserImage(), R.drawable.rc_image_error, R.drawable.rc_image_error, mHead, 0);
                 mName.setText(mZhuBoInfo.getNickName());
                 //获取关注状态
-                Map map2 = new HashMap();
-                map2.put("token", rUserInfo.getToken() + "");
-                map2.put("expertId", mZhuBoInfo.getUserId());
-                request.doPostRequest(1, true, Constant.GetFocusState, map2);
+                if(!TextUtils.isEmpty(rUserInfo.getToken())){
+                    Map map2 = new HashMap();
+                    map2.put("token", rUserInfo.getToken() + "");
+                    map2.put("expertId", mZhuBoInfo.getUserId());
+                    request.doPostRequest(1, true, Constant.GetFocusState, map2);
+                }
             }
         } else if (code == 1) {
             RUserInfo mUserInfo = JSON.parseObject(((JSONObject) data).toJSONString(), new TypeReference<RUserInfo>() {
@@ -706,6 +699,22 @@ public class LivePlayActivity extends BaseActivity implements View.OnClickListen
             });
             myAlertDialog.show();
             return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+            String s = inputEt.getText().toString();
+            if (!TextUtils.isEmpty(s)) {
+                if (getDialog()) {
+                    return false;
+                }
+                final TextMessage content = TextMessage.obtain(s);
+                LiveKit.sendMessage(content);
+                inputEt.getText().clear();
+            }
         }
         return false;
     }

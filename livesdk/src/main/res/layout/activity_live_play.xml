@@ -4,7 +4,7 @@
     android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#55000000"
+    android:background="#cccccc"
     android:fitsSystemWindows="true">
 
     <com.pili.pldroid.player.widget.PLVideoTextureView
@@ -12,6 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center" />
+    <View
+        android:id="@+id/liveplay_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#cccccc"
+        />
 
     <com.xiaomeijr.mhdxh.ui.widget.ChatListView
         android:id="@+id/chat_listview"

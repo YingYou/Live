@@ -42,7 +42,7 @@
                 android:layout_toLeftOf="@+id/input_emoji_btn"
                 android:background="@android:color/transparent"
                 android:hint="跟大家一起讨论讨论吧"
-                android:imeOptions="actionSend"
+                android:imeOptions="actionSend|flagNoExtractUi"
                 android:maxLines="4"
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"

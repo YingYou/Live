@@ -43,8 +43,8 @@
         </activity>
         <activity
             android:name=".ui.activity.LiveShowActivity"
-            android:screenOrientation="portrait"
             android:keepScreenOn="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -54,8 +54,8 @@
         </activity>
         <activity
             android:name=".ui.activity.LivePlayActivity"
-            android:keepScreenOn="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:keepScreenOn="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -66,13 +66,13 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".ui.activity.VideoPlayActivity"
-            android:keepScreenOn="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustResize" />
+            android:keepScreenOn="true"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.PcVideoPlayActivity"
-            android:keepScreenOn="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:keepScreenOn="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <!-- 友盟分享 -->

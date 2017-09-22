@@ -43,11 +43,13 @@
                 android:layout_toLeftOf="@+id/input_emoji_btn"
                 android:background="@android:color/transparent"
                 android:hint="说点什么吧..."
+                android:imeOptions="actionSend"
                 android:maxLines="4"
+                android:singleLine="true"
                 android:paddingBottom="8dp"
                 android:paddingLeft="10dp"
                 android:paddingTop="8dp"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </RelativeLayout>
 

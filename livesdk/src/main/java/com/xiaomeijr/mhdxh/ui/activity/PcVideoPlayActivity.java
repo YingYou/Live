@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -158,6 +159,7 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
     private LinearLayout mSpace2;
     private Handler checkremoveHandler;
     private LinearLayout ll_back;
+    private LinearLayout mZantingll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,9 +169,9 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
     @Override
     protected int getLayoutResID() {
         //全屏，保持屏幕常亮
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         return R.layout.activity_pc_video_play;
     }
@@ -184,8 +186,13 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        setViewVisible(View.VISIBLE);
-                        resetTime();
+                        if (mLl_title.getVisibility()==View.GONE){
+                            setViewVisible(View.VISIBLE);
+                            resetTime();
+                        }else {
+                            setViewVisible(View.GONE);
+                            resetTime();
+                        }
                         break;
                     case MotionEvent.ACTION_UP:
                         break;
@@ -320,6 +327,7 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
         mShare2 = (ImageView) findViewById(R.id.img_share2);
         mZanting1 = (ImageView) findViewById(R.id.pc_videoplay_zanting1);
         mZanting2 = (ImageView) findViewById(R.id.img_zanting2);
+        mZantingll = (LinearLayout) findViewById(R.id.ll_zanting2);
         mShuaxin = (ImageView) findViewById(R.id.img_shuaxin);
         mLike2 = (ImageView) findViewById(R.id.btn_like);
         mTitle = (TextView) findViewById(R.id.text_title);
@@ -336,6 +344,7 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
         mLiaotian.setOnClickListener(this);
         mZhubo.setOnClickListener(this);
         mZanting1.setOnClickListener(this);
+        mZantingll.setOnClickListener(this);
         mShuaxin.setOnClickListener(this);
         mShare1.setOnClickListener(this);
         mShare2.setOnClickListener(this);
@@ -353,19 +362,6 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
                     if (getDialog()) {
                         return;
                     }
-//                    if (IsNotTalk){
-//                        final myAlertDialog myAlertDialog = new myAlertDialog(PcVideoPlayActivity.this);
-//                        myAlertDialog.setContenttext("你已被禁言!");
-//                        myAlertDialog.setShowNo(false);
-//                        myAlertDialog.setYesOnclickListener("确定", new myAlertDialog.onYesOnclickListener() {
-//                            @Override
-//                            public void onYesClick() {
-//                                myAlertDialog.dismiss();
-//                            }
-//                        });
-//                        myAlertDialog.show();
-//                        return;
-//                    }
                     final TextMessage content = TextMessage.obtain(text);
                     if (!TextUtils.isEmpty(content.getContent())) {
                         LiveKit.sendMessage(content);
@@ -375,45 +371,6 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
             }
         });
         setDanmu();
-
-//        chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-//                final myDialog myDialog = new myDialog(PcVideoPlayActivity.this);
-//
-//                if (!chatListAdapter.getuserId(i).equals(rUserInfo.getUserId())) {
-//                    myDialog.setContenttext(chatListAdapter.getuserName(i));
-//                    myDialog.setImg(chatListAdapter.getuserImg(i));
-//                    myDialog.setYesOnclickListener("禁言", new myDialog.onYesOnclickListener() {
-//                        @Override
-//                        public void onYesClick() {
-//                            //禁言
-//                            opolUserId = chatListAdapter.getuserId(i);
-//                            Map map = new HashMap();
-//                            map.put("type", "0");
-//                            map.put("token", rUserInfo.getToken());
-//                            map.put("beUserId", chatListAdapter.getuserId(i));
-//                            request.doPostRequest(6, true, Constant.GetQuanxian, map);
-//                            myDialog.dismiss();
-//                        }
-//                    });
-//                    myDialog.setNoOnclickListener("踢出频道", new myDialog.onNoOnclickListener() {
-//                        @Override
-//                        public void onNoClick() {
-//                            //踢出
-//                            opolUserId = chatListAdapter.getuserId(i);
-//                            Map map = new HashMap();
-//                            map.put("type", "1");
-//                            map.put("token", rUserInfo.getToken());
-//                            map.put("beUserId", chatListAdapter.getuserId(i));
-//                            request.doPostRequest(7, true, Constant.GetQuanxian, map);
-//                            myDialog.dismiss();
-//                        }
-//                    });
-//                    myDialog.show();
-//                }
-//            }
-//        });
     }
 
     private void startLiveShow(String url) {
@@ -587,7 +544,7 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
                 }
                 FrameLayout.LayoutParams ll_lp = new FrameLayout.LayoutParams(
                         FrameLayout.LayoutParams.MATCH_PARENT,
-                        ScreenUtils.dp2px(PcVideoPlayActivity.this, 250));
+                        ScreenUtils.dp2px(PcVideoPlayActivity.this, 212));
                 mVideoView.setLayoutParams(ll_lp);
                 mBack.setImageResource(R.drawable.btn_back_yuan);
                 mDanmu.setVisibility(View.GONE);
@@ -617,7 +574,7 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
             mRl_zhubo.setVisibility(View.GONE);
             mZhubo_line.setVisibility(View.INVISIBLE);
             mLiaotian_line.setVisibility(View.VISIBLE);
-        } else if (v.equals(mZanting1)) {
+        } else if (v.equals(mZanting1)||v.equals(mZantingll)) {
             if (isStart) {
                 mVideoView.pause();
                 mZanting1.setImageResource(R.drawable.btn_play_yuan);
@@ -646,8 +603,13 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
         } else if (v.equals(mShare1) || v.equals(mShare2)) {
 
             if (v.equals(mShare1) && !isPortrait) {
-                LogUtils.d("popWnd");
-                popWnd.showAtLocation(btnSend, Gravity.BOTTOM, ScreenUtils.dp2px(PcVideoPlayActivity.this, 215), ScreenUtils.dp2px(PcVideoPlayActivity.this, 48));
+                LogUtils.d("popWnd"+popWnd.isShowing());
+                if (popWnd.isShowing()){
+                    popWnd.dismiss();
+                }else {
+                    popWnd.showAtLocation(btnSend, Gravity.BOTTOM, ScreenUtils.dp2px(PcVideoPlayActivity.this, 215), ScreenUtils.dp2px(PcVideoPlayActivity.this, 48));
+                    popWnd.setFocusable(true);
+                }
             } else {
                 if (!shareUrl.startsWith("http://")) {
                     shareUrl = "http://" + shareUrl;
@@ -781,6 +743,22 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
 
     @Override
     public boolean onError(PLMediaPlayer plMediaPlayer, int i) {
+        LogUtils.d("错误码："+i);
+        final myAlertDialog mErrorDialog = new myAlertDialog(PcVideoPlayActivity.this);
+        if (i==-2100){
+            mErrorDialog.setContenttext("直播已结束");
+        }else {
+            mErrorDialog.setContenttext("无直播资源");
+        }
+        mErrorDialog.setShowNo(false);
+        mErrorDialog.setYesOnclickListener("确定", new myAlertDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                mErrorDialog.dismiss();
+                finish();
+            }
+        });
+        mErrorDialog.show();
         return false;
     }
 
@@ -862,10 +840,12 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
                 mDesc.setText(mZhuBoInfo.getLiveIntroduce());
 
                 //获取关注状态
-                Map map2 = new HashMap();
-                map2.put("token", rUserInfo.getToken() + "");
-                map2.put("expertId", mZhuBoInfo.getUserId());
-                request.doPostRequest(1, true, Constant.GetFocusState, map2);
+                if (!TextUtils.isEmpty(rUserInfo.getToken())){
+                    Map map2 = new HashMap();
+                    map2.put("token", rUserInfo.getToken() + "");
+                    map2.put("expertId", mZhuBoInfo.getUserId());
+                    request.doPostRequest(1, true, Constant.GetFocusState, map2);
+                }
             }
         } else if (code == 1) {
             RUserInfo mUserInfo = JSON.parseObject(((JSONObject) data).toJSONString(), new TypeReference<RUserInfo>() {
@@ -1013,16 +993,18 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
      * @param v
      */
     private void setViewVisible(int v) {
-        mLl_title.setVisibility(v);
-        if (!isPortrait) {
-            mLl_Bottom.setVisibility(v);
-        } else {
-            mNum.setVisibility(v);
-            mLl_cross.setVisibility(v);
-        }
-        if (v == View.INVISIBLE) {
-            if (popWnd != null)
-                popWnd.dismiss();
+        if (!isSoftShowing()){
+            mLl_title.setVisibility(v);
+            if (!isPortrait) {
+                mLl_Bottom.setVisibility(v);
+            } else {
+                mNum.setVisibility(v);
+                mLl_cross.setVisibility(v);
+            }
+            if (v == View.INVISIBLE) {
+                if (popWnd != null)
+                    popWnd.dismiss();
+            }
         }
     }
 
@@ -1030,5 +1012,16 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
         mtimeHandler.removeMessages(MOBILE_QUERY);
         Message msg = mtimeHandler.obtainMessage(MOBILE_QUERY);
         mtimeHandler.sendMessageDelayed(msg, 5000);
+    }
+
+    //判断键盘是否弹出
+    private boolean isSoftShowing() {
+        //获取当前屏幕内容的高度
+        int screenHeight = getWindow().getDecorView().getHeight();
+        //获取View可见区域的bottom
+        Rect rect = new Rect();
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+
+        return screenHeight - rect.bottom != 0;
     }
 }
