@@ -16,9 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -38,7 +36,6 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.xiaomeijr.mhdxh.R;
 import com.xiaomeijr.mhdxh.base.BaseActivity;
@@ -57,7 +54,6 @@ import com.xiaomeijr.mhdxh.ui.widget.ChatListView;
 import com.xiaomeijr.mhdxh.ui.widget.DialogProgress;
 import com.xiaomeijr.mhdxh.ui.widget.InputPanel_pc;
 import com.xiaomeijr.mhdxh.ui.widget.myAlertDialog;
-import com.xiaomeijr.mhdxh.ui.widget.myDialog;
 import com.xiaomeijr.mhdxh.utils.ACache;
 import com.xiaomeijr.mhdxh.utils.Constant;
 import com.xiaomeijr.mhdxh.utils.DanmuAdapter;
@@ -160,6 +156,7 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
     private Handler checkremoveHandler;
     private LinearLayout ll_back;
     private LinearLayout mZantingll;
+    private LinearLayout mMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +175,7 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
 
     @Override
     protected void initData() {
+
         mtimeHandler = new EffectInVisiableHandler();
         Message msg = mtimeHandler.obtainMessage(MOBILE_QUERY);
         mtimeHandler.sendMessageDelayed(msg, 5000);
@@ -186,10 +184,10 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        if (mLl_title.getVisibility()==View.GONE){
+                        if (mLl_title.getVisibility() == View.GONE) {
                             setViewVisible(View.VISIBLE);
                             resetTime();
-                        }else {
+                        } else {
                             setViewVisible(View.GONE);
                             resetTime();
                         }
@@ -207,7 +205,7 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
         mAcache = ACache.get(PcVideoPlayActivity.this);
         rUserInfo = (RUserInfo) mAcache.getAsObject("UserInfo");
 
-        chatListAdapter = new ChatListAdapter(PcVideoPlayActivity.this,rUserInfo,request);
+        chatListAdapter = new ChatListAdapter(PcVideoPlayActivity.this, rUserInfo, request);
         chatListView.setAdapter(chatListAdapter);
 
         Intent intent = getIntent();
@@ -300,6 +298,7 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
         mShare1 = (ImageView) bottomPanel.getView().findViewById(R.id.img_share1);
         mSpace = (LinearLayout) bottomPanel.getView().findViewById(R.id.space);
         mSpace2 = (LinearLayout) bottomPanel.getView().findViewById(R.id.space2);
+//        mMain = (LinearLayout)findViewById(R.id.view);
         heartLayout = (HeartLayout) findViewById(R.id.heart_layout);
         mDanmu = (DanmuContainerView) findViewById(R.id.danmuContainerView);
 
@@ -463,6 +462,13 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
 
     }
 
+    private void full(boolean enable) {
+        if (enable) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -498,6 +504,8 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
             Log.d("mCross", isPortrait + "");
             if (isPortrait) {//设置横屏
                 isPortrait = false;
+//                mMain.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+                full(true);
                 mSpace.setVisibility(View.VISIBLE);
                 mSpace2.setVisibility(View.VISIBLE);
                 if (focusState == 0) {
@@ -532,6 +540,8 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
             } else {                      //设置竖屏
                 Log.d("mCross", "SCREEN_ORIENTATION_PORTRAIT");
                 isPortrait = true;
+                full(false);
+//                mMain.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                 setViewVisible(View.VISIBLE);
                 mSpace.setVisibility(View.GONE);
                 mSpace2.setVisibility(View.GONE);
@@ -574,7 +584,7 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
             mRl_zhubo.setVisibility(View.GONE);
             mZhubo_line.setVisibility(View.INVISIBLE);
             mLiaotian_line.setVisibility(View.VISIBLE);
-        } else if (v.equals(mZanting1)||v.equals(mZantingll)) {
+        } else if (v.equals(mZanting1) || v.equals(mZantingll)) {
             if (isStart) {
                 mVideoView.pause();
                 mZanting1.setImageResource(R.drawable.btn_play_yuan);
@@ -603,10 +613,10 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
         } else if (v.equals(mShare1) || v.equals(mShare2)) {
 
             if (v.equals(mShare1) && !isPortrait) {
-                LogUtils.d("popWnd"+popWnd.isShowing());
-                if (popWnd.isShowing()){
+                LogUtils.d("popWnd" + popWnd.isShowing());
+                if (popWnd.isShowing()) {
                     popWnd.dismiss();
-                }else {
+                } else {
                     popWnd.showAtLocation(btnSend, Gravity.BOTTOM, ScreenUtils.dp2px(PcVideoPlayActivity.this, 215), ScreenUtils.dp2px(PcVideoPlayActivity.this, 48));
                     popWnd.setFocusable(true);
                 }
@@ -743,11 +753,11 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
 
     @Override
     public boolean onError(PLMediaPlayer plMediaPlayer, int i) {
-        LogUtils.d("错误码："+i);
+        LogUtils.d("错误码：" + i);
         final myAlertDialog mErrorDialog = new myAlertDialog(PcVideoPlayActivity.this);
-        if (i==-2100){
+        if (i == -2100) {
             mErrorDialog.setContenttext("直播已结束");
-        }else {
+        } else {
             mErrorDialog.setContenttext("无直播资源");
         }
         mErrorDialog.setShowNo(false);
@@ -840,7 +850,7 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
                 mDesc.setText(mZhuBoInfo.getLiveIntroduce());
 
                 //获取关注状态
-                if (!TextUtils.isEmpty(rUserInfo.getToken())){
+                if (!TextUtils.isEmpty(rUserInfo.getToken())) {
                     Map map2 = new HashMap();
                     map2.put("token", rUserInfo.getToken() + "");
                     map2.put("expertId", mZhuBoInfo.getUserId());
@@ -993,7 +1003,21 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
      * @param v
      */
     private void setViewVisible(int v) {
-        if (!isSoftShowing()){
+        LogUtils.d("设置隐藏或显示" + v);
+        if (!isSoftShowing() && !isPortrait) {
+            mLl_title.setVisibility(v);
+            if (!isPortrait) {
+                mLl_Bottom.setVisibility(v);
+            } else {
+                mNum.setVisibility(v);
+                mLl_cross.setVisibility(v);
+            }
+            if (v == View.INVISIBLE) {
+                if (popWnd != null)
+                    popWnd.dismiss();
+            }
+        }
+        if (isPortrait) {
             mLl_title.setVisibility(v);
             if (!isPortrait) {
                 mLl_Bottom.setVisibility(v);

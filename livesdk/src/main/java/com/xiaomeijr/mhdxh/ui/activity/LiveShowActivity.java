@@ -84,6 +84,7 @@ public class LiveShowActivity extends BaseActivity implements View.OnClickListen
     private CameraStreamingSetting setting;
     private int shanguang = 0;
     private int meiyan = 0;
+    private int shexiangtou = 0;//0前置1后置
     private ImageView mMeiyan;
     private AspectFrameLayout afl;
     private GLSurfaceView glSurfaceView;
@@ -189,43 +190,6 @@ public class LiveShowActivity extends BaseActivity implements View.OnClickListen
             }
         });
 
-//        chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-//                final myDialog myDialog = new myDialog(LiveShowActivity.this);
-//                if (!chatListAdapter.getuserId(i).equals(rUserInfo.getUserId())) {
-//                    myDialog.setContenttext(chatListAdapter.getuserName(i));
-//                    myDialog.setImg(chatListAdapter.getuserImg(i));
-//                    myDialog.setYesOnclickListener("禁言", new myDialog.onYesOnclickListener() {
-//                        @Override
-//                        public void onYesClick() {
-//                            //禁言
-//                            opolUserId = chatListAdapter.getuserId(i);
-//                            Map map = new HashMap();
-//                            map.put("type", "0");
-//                            map.put("token", rUserInfo.getToken());
-//                            map.put("beUserId", chatListAdapter.getuserId(i));
-//                            request.doPostRequest(6, true, Constant.GetQuanxian, map);
-//                            myDialog.dismiss();
-//                        }
-//                    });
-//                    myDialog.setNoOnclickListener("踢出频道", new myDialog.onNoOnclickListener() {
-//                        @Override
-//                        public void onNoClick() {
-//                            //踢出
-//                            opolUserId = chatListAdapter.getuserId(i);
-//                            Map map = new HashMap();
-//                            map.put("type", "1");
-//                            map.put("token", rUserInfo.getToken());
-//                            map.put("beUserId", chatListAdapter.getuserId(i));
-//                            request.doPostRequest(7, true, Constant.GetQuanxian, map);
-//                            myDialog.dismiss();
-//                        }
-//                    });
-//                    myDialog.show();
-//                }
-//            }
-//        });
         handler2.postDelayed(runnable, 2000);
     }
 
@@ -261,15 +225,6 @@ public class LiveShowActivity extends BaseActivity implements View.OnClickListen
         }
 
     }
-
-//    private void setDanmu() {
-//        DanmuAdapter danmuAdapter = new DanmuAdapter(LiveShowActivity.this);
-//        mDanmu.setAdapter(danmuAdapter);
-//
-//        mDanmu.setSpeed(DanmuContainerView.HIGH_SPEED);
-//
-//        mDanmu.setGravity(DanmuContainerView.GRAVITY_FULL);
-//    }
 
     @Override
     protected void onResume() {
@@ -398,18 +353,25 @@ public class LiveShowActivity extends BaseActivity implements View.OnClickListen
         } else if (v.equals(mBack)) {
             onBackPressed();
         } else if (v.equals(mShanguang)) {
-            if (shanguang == 0) {
-                shanguang = 1;
-                mMediaStreamingManager.turnLightOn();
-                mShanguang.setImageResource(R.drawable.btn_shanguangdeng_n);
-            } else {
-                shanguang = 0;
-                mMediaStreamingManager.turnLightOff();
-                mShanguang.setImageResource(R.drawable.btn_shanguang_h);
+            if (shexiangtou == 1) {
+                if (shanguang == 0) {
+                    shanguang = 1;
+                    mMediaStreamingManager.turnLightOn();
+                    mShanguang.setImageResource(R.drawable.btn_shanguangdeng_n);
+                } else {
+                    shanguang = 0;
+                    mMediaStreamingManager.turnLightOff();
+                    mShanguang.setImageResource(R.drawable.btn_shanguang_h);
+                }
             }
-
         } else if (v.equals(mShexiangtou)) {
+            if (shexiangtou ==0){
+                shexiangtou = 1;
+            }else {
+                shexiangtou = 0;
+            }
             mMediaStreamingManager.switchCamera();
+
         } else if (v.equals(mZimu)) {
             if (isDm) {
                 isDm = false;
