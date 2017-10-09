@@ -16,8 +16,8 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:text="sssss"
-        android:textSize="14sp"
-        android:textColor="#191919"
+        android:textSize="16sp"
+        android:textColor="#fff"
         android:gravity="center_vertical"
         />
     <TextView
@@ -27,7 +27,7 @@
         android:text="赠送给主播"
         android:textColor="@color/white"
         android:layout_marginLeft="10dp"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:gravity="center_vertical"
         />
     <ImageView

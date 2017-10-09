@@ -41,6 +41,7 @@ import com.xiaomeijr.mhdxh.R;
 import com.xiaomeijr.mhdxh.base.BaseActivity;
 import com.xiaomeijr.mhdxh.base.LiveKit;
 import com.xiaomeijr.mhdxh.controller.ChatListAdapter;
+import com.xiaomeijr.mhdxh.controller.Const;
 import com.xiaomeijr.mhdxh.data.RUserInfo;
 import com.xiaomeijr.mhdxh.data.Removebean;
 import com.xiaomeijr.mhdxh.fakeserver.FakeServer;
@@ -157,6 +158,7 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
     private LinearLayout ll_back;
     private LinearLayout mZantingll;
     private LinearLayout mMain;
+    private Dialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +174,7 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         return R.layout.activity_pc_video_play;
     }
+
 
     @Override
     protected void initData() {
@@ -370,6 +373,8 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
             }
         });
         setDanmu();
+
+        loadingDialog = DialogProgress.createLoadingDialog(PcVideoPlayActivity.this,"正在加载...");
     }
 
     private void startLiveShow(String url) {
@@ -598,8 +603,15 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
             }
         } else if (v.equals(mShuaxin)) {
             startLiveShow(url);
+            loadingDialog.show();
             mZanting1.setImageResource(R.drawable.btn_pause_yuan);
             mZanting2.setImageResource(R.drawable.btn_zanting);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    loadingDialog.dismiss();
+                }
+            },1000);
         } else if (v.equals(mLike) || v.equals(mLike2)) {
             if (getDialog()) {
                 return;
@@ -738,12 +750,14 @@ public class PcVideoPlayActivity extends BaseActivity implements View.OnKeyListe
     protected void onPause() {
         super.onPause();
         mVideoView.pause();
+        Const.MsgType = 0;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mVideoView.start();
+        Const.MsgType = 1;
     }
 
     @Override

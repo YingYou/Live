@@ -195,7 +195,7 @@ public class LiveShowActivity extends BaseActivity implements View.OnClickListen
 
     private void setVedioConfig() {
         setting = new CameraStreamingSetting();
-        afl.setShowMode(AspectFrameLayout.SHOW_MODE.REAL);
+        afl.setShowMode(AspectFrameLayout.SHOW_MODE.FULL);
         mMediaStreamingManager = new MediaStreamingManager(this, afl, glSurfaceView, AVCodecType.SW_VIDEO_WITH_SW_AUDIO_CODEC);  // soft codec
         mMediaStreamingManager.setStreamingStateListener(this);
         mProfile = new StreamingProfile();

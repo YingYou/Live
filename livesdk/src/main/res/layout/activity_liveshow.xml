@@ -114,7 +114,7 @@
             android:textColor="#fff"
             android:background="@drawable/num_back"
             android:layout_marginLeft="5dp"
-            android:padding="10dp"
+            android:padding="7dp"
             android:textSize="13sp"
             android:text="人数：0"
             android:layout_marginRight="10dp"

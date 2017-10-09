@@ -66,7 +66,7 @@ public class DanmuAdapter extends XAdapter<DanmuEntity> {
             case 0:
                 holder1.name.setText(danmuEntity.name);
                 holder1.content.setText(danmuEntity.content);
-                holder1.content.setTextColor(Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
+                holder1.content.setTextColor(Color.WHITE);
                 break;
             case 1:
                 holder2.name.setText(danmuEntity.name);

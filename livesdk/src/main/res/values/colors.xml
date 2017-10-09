@@ -14,4 +14,7 @@
     <color name="blue">#3366cc</color>
     <color name="text_black">#191919</color>
     <color name="text_gray">#999999</color>
+
+    <color name="text_name">#a1a1a1</color>
+    <color name="text_content">#191919</color>
 </resources>

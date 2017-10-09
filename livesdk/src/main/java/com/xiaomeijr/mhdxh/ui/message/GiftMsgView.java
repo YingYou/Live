@@ -6,9 +6,11 @@ import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xiaomeijr.mhdxh.R;
+import com.xiaomeijr.mhdxh.controller.Const;
 import com.xiaomeijr.mhdxh.controller.EmojiManager;
 
 import io.rong.imlib.model.MessageContent;
@@ -17,6 +19,7 @@ public class GiftMsgView extends BaseMsgView {
 
     private TextView username;
     private TextView content;
+    private LinearLayout ll;
     private Context context;
 
     public GiftMsgView(Context context) {
@@ -25,10 +28,16 @@ public class GiftMsgView extends BaseMsgView {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.msg_gift_view, this);
         username = (TextView) view.findViewById(R.id.username);
         content = (TextView) view.findViewById(R.id.content);
+        ll = (LinearLayout) view.findViewById(R.id.ll);
     }
 
     @Override
     public void setContent(MessageContent msgContent) {
+        if (Const.MsgType==1){
+            username.setTextColor(context.getResources().getColor(R.color.text_name));
+            content.setTextColor(context.getResources().getColor(R.color.text_content));
+            ll.setBackground(null);
+        }
         GiftMessage msg = (GiftMessage) msgContent;
         username.setText(msg.getUserInfo().getName() + " ");
         ImageSpan imgSpan = new ImageSpan(context, R.drawable.img_rose_small);
