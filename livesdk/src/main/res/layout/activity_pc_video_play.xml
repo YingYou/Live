@@ -85,31 +85,33 @@
                 android:gravity="bottom"
                 android:orientation="horizontal">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="38dp"
                     android:layout_marginLeft="10dp"
                     android:orientation="vertical">
-
+                    <!--android:layout_marginBottom="8dp"-->
                     <TextView
                         android:id="@+id/text_liaotian"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
+                        android:layout_centerVertical="true"
                         android:text="互动"
                         android:textColor="@color/blue"
                         android:textSize="15sp" />
 
                     <View
                         android:id="@+id/view_liaotian"
-                        android:layout_width="match_parent"
+                        android:layout_width="30dp"
                         android:layout_height="3dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
                         android:background="@color/blue" />
-                </LinearLayout>
-
-                <LinearLayout
+                </RelativeLayout>
+<!--android:layout_marginBottom="8dp"-->
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="38dp"
                     android:layout_marginLeft="30dp"
                     android:orientation="vertical">
 
@@ -117,18 +119,21 @@
                         android:id="@+id/text_zhubo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
+
+                        android:layout_centerVertical="true"
                         android:text="主播"
                         android:textColor="@color/blue"
                         android:textSize="15sp" />
 
                     <View
                         android:id="@+id/view_zhubo"
-                        android:layout_width="match_parent"
+                        android:layout_width="30dp"
                         android:layout_height="3dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
                         android:background="@color/blue"
                         android:visibility="invisible" />
-                </LinearLayout>
+                </RelativeLayout>
 
             </LinearLayout>
 

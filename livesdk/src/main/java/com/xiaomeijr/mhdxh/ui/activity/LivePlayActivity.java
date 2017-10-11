@@ -572,7 +572,7 @@ public class LivePlayActivity extends BaseActivity implements View.OnKeyListener
             if (mUserInfo != null) {
                 focusState = Integer.parseInt(mUserInfo.getFocus());
                 if (mUserInfo.getFocus().equals("0")) {
-                    mLike.setText("+ 关注");
+                    mLike.setText("关注");
                     mLike.setBackgroundResource(R.drawable.like_back);
                 } else if (mUserInfo.getFocus().equals("1")) {
                     mLike.setText("已关注");
@@ -582,7 +582,7 @@ public class LivePlayActivity extends BaseActivity implements View.OnKeyListener
         } else if (code == 2) {
             if (focusState == 1) {
                 focusState = 0;
-                mLike.setText("+ 关注");
+                mLike.setText("关注");
                 mLike.setBackgroundResource(R.drawable.like_back);
             } else if (focusState == 0) {
                 focusState = 1;
