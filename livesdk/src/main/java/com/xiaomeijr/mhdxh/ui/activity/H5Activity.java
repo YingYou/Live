@@ -125,6 +125,25 @@ public class H5Activity extends BaseActivity implements UIDataListener {
         } else if (mDensity == DisplayMetrics.DENSITY_TV) {
             webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
         }
+        
+         mWebview.setWebChromeClient(new WebChromeClient(){
+
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result){
+
+                return super.onJsAlert(view,url,message,result);
+            } //处理alert弹出框，html 弹框的一种方式
+
+            public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result){
+
+                return super.onJsPrompt(view, url, message, defaultValue, result);
+            } //处理confirm弹出框
+
+            public boolean onJsConfirm(WebView view, String url, String message, JsResult result){
+
+                return super.onJsConfirm(view,url,message,result);
+            } //处理prompt弹出框
+        });
 
         mWebview.setWebViewClient(new WebViewClient() {
             @Override
@@ -280,6 +299,16 @@ public class H5Activity extends BaseActivity implements UIDataListener {
                     .withMedia(web)
                     .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.SINA, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
                     .setCallback(umShareListener).open();
+        }
+        
+         /**
+         * 返回事件
+         * */
+        @JavascriptInterface
+        public void backToApp(){
+            LogUtils.d("返回到上一级");
+            finish();
+
         }
     }
 
