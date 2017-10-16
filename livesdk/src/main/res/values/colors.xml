@@ -17,4 +17,5 @@
 
     <color name="text_name">#a1a1a1</color>
     <color name="text_content">#191919</color>
+    <color name="nav_color">#3569c9</color>
 </resources>
