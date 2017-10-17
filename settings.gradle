@@ -1,2 +1,1 @@
-include ':app', ':InitActivity'
-include ':app'
+include ':livesdk', ':InitActivity'
