@@ -38,7 +38,7 @@ android {
         debug {
 // 移除无用的resource文件
             shrinkResources false
-            signingConfig signingConfigs.myConfig
+//            signingConfig signingConfigs.myConfig
         }
     }
     sourceSets {
@@ -60,7 +60,6 @@ dependencies {
     compile files('libs/AMap_2DMap_V2.9.0_20160525.jar')
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.qiniu:happy-dns:0.2.7'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.hust201010701:XDanmuku:master-SNAPSHOT'
     compile 'com.apkfuns.logutils:library:1.2.2'
     compile 'com.github.bumptech.glide:glide:3.6.1'

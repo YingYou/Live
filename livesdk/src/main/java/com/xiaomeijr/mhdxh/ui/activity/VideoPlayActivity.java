@@ -1,6 +1,7 @@
 package com.xiaomeijr.mhdxh.ui.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.xiaomeijr.mhdxh.R;
 import com.xiaomeijr.mhdxh.base.BaseActivity;
+import com.xiaomeijr.mhdxh.ui.widget.DialogProgress;
 
 import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.Vitamio;
@@ -36,6 +38,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
     private String url;
     private String name;
     private TextView mTitle;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +63,27 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         mContent = (FrameLayout) findViewById(R.id.videoplay_content);
         mCross = (ImageView) findViewById(R.id.videoplay_cross);
 
+        dialog = DialogProgress.createLoadingDialog(this,"正在缓冲...");
+        dialog.show();
         findViewById(R.id.videoplay_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if (!isPortrait){
+                    setPortraitScape();
+                }else {
+                    finish();
+                }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!isPortrait){
+            setPortraitScape();
+        }else {
+            finish();
+        }
     }
 
     @Override
@@ -115,6 +133,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 //                    // optional need Vitamio 4.0
                     mediaPlayer.setPlaybackSpeed(1.0f);
                     mVideoView.start();
+                    dialog.dismiss();
                 }
             };
         }
@@ -219,6 +238,10 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         return localDisplayMetrics.widthPixels;
     }
 
+    /**
+     * 设置隐藏状态栏
+     * @param enable
+     */
     private void full(boolean enable) {
         if (enable) {
             WindowManager.LayoutParams lp = getWindow().getAttributes();
