@@ -63,14 +63,14 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         mContent = (FrameLayout) findViewById(R.id.videoplay_content);
         mCross = (ImageView) findViewById(R.id.videoplay_cross);
 
-        dialog = DialogProgress.createLoadingDialog(this,"正在缓冲...");
+        dialog = DialogProgress.createLoadingDialog(this, "正在缓冲...");
         dialog.show();
         findViewById(R.id.videoplay_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isPortrait){
+                if (!isPortrait) {
                     setPortraitScape();
-                }else {
+                } else {
                     finish();
                 }
             }
@@ -79,9 +79,9 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        if (!isPortrait){
+        if (!isPortrait) {
             setPortraitScape();
-        }else {
+        } else {
             finish();
         }
     }
@@ -102,7 +102,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
         Intent intent = getIntent();
         if (intent.hasExtra("url"))
             url = intent.getStringExtra("url");
-        if (intent.hasExtra("name")){
+        if (intent.hasExtra("name")) {
             name = intent.getStringExtra("name");
             mTitle.setText(name.toString());
         }
@@ -133,14 +133,16 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 //                    // optional need Vitamio 4.0
                     mediaPlayer.setPlaybackSpeed(1.0f);
                     mVideoView.start();
-                    dialog.dismiss();
+                    if (dialog != null)
+                        dialog.dismiss();
                 }
             };
         }
         mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
-                dialog.dismiss();
+                if (dialog != null)
+                    dialog.dismiss();
                 return false;
             }
         });
@@ -247,6 +249,7 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
 
     /**
      * 设置隐藏状态栏
+     *
      * @param enable
      */
     private void full(boolean enable) {
