@@ -137,6 +137,13 @@ public class VideoPlayActivity extends BaseActivity implements View.OnClickListe
                 }
             };
         }
+        mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                dialog.dismiss();
+                return false;
+            }
+        });
         mVideoView.setOnPreparedListener(onPreparedListener);
         mMediaController.setOnHiddenListener(new MediaController.OnHiddenListener() {
             @Override
