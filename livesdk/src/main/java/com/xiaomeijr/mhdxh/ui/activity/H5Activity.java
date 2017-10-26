@@ -88,42 +88,26 @@ public class H5Activity extends BaseActivity implements UIDataListener {
      * 设置web参数
      */
     private void setWebView() {
-        WebSettings webSettings = mWebview.getSettings();
-        webSettings.setDefaultTextEncodingName("UTF-8");
-        webSettings.setSupportZoom(true);
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-        webSettings.setBuiltInZoomControls(true);//support zoom
-        webSettings.setUseWideViewPort(true);//
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setJavaScriptEnabled(true);// 支持JS
-        webSettings.setDisplayZoomControls(false);
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-
-
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-        webSettings.setSavePassword(true);
-        webSettings.setSaveFormData(true);
-        webSettings.setGeolocationEnabled(true);
-        webSettings.setGeolocationDatabasePath("/data/data/html5webview/databases/");     // enable Web Storage: localStorage, sessionStorage
-        webSettings.setDomStorageEnabled(true);
-//        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-//        webSettings.setAppCacheEnabled(true);
-        mWebview.requestFocus();
-
-
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int mDensity = metrics.densityDpi;
-        if (mDensity == 240) {
-            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
-        } else if (mDensity == 160) {
-            webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
-        } else if (mDensity == 120) {
-            webSettings.setDefaultZoom(WebSettings.ZoomDensity.CLOSE);
-        } else if (mDensity == DisplayMetrics.DENSITY_XHIGH) {
-            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
-        } else if (mDensity == DisplayMetrics.DENSITY_TV) {
-            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        WebSettings localWebSettings = mWebview.getSettings();
+        localWebSettings.setJavaScriptEnabled(true);
+        localWebSettings.setDefaultTextEncodingName("UTF-8");
+        localWebSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        localWebSettings.setUseWideViewPort(true);
+        localWebSettings.setLoadWithOverviewMode(true);
+        localWebSettings.setNeedInitialFocus(true);
+        localWebSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        localWebSettings.setLoadsImagesAutomatically(true);
+        localWebSettings.setTextZoom(100);
+        localWebSettings.setDomStorageEnabled(true);
+        localWebSettings.setAppCacheMaxSize(8388608L);
+        localWebSettings.setAppCachePath(this.getApplicationContext().getCacheDir().getAbsolutePath());
+        localWebSettings.setAllowFileAccess(true);
+        localWebSettings.setAppCacheEnabled(true);
+        if (Build.VERSION.SDK_INT >= 16) {
+            localWebSettings.setAllowFileAccessFromFileURLs(true);
+        }
+        if (Build.VERSION.SDK_INT >= 16) {
+            localWebSettings.setAllowUniversalAccessFromFileURLs(true);
         }
 
         mWebview.setWebViewClient(new WebViewClient() {
@@ -136,6 +120,26 @@ public class H5Activity extends BaseActivity implements UIDataListener {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
+            }
+        });
+           //设置响应js 的Alert()函数
+        mWebview.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
+
+                return super.onJsAlert(view,url,message,result);
+            }
+            //设置响应js 的Confirm()函数
+            @Override
+            public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
+
+                return super.onJsConfirm(view, url, message, result);
+            }
+            //设置响应js 的Prompt()函数
+            @Override
+            public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, final JsPromptResult result) {
+
+                return super.onJsPrompt(view,url,message,defaultValue,result);
             }
         });
         mWebview.addJavascriptInterface(new JSHook(), "android");
@@ -232,6 +236,18 @@ public class H5Activity extends BaseActivity implements UIDataListener {
                 LogUtils.d(e.getMessage());
             }
         }
+        
+        /**
+         * 返回操作
+         *
+         * @param
+         */
+        @JavascriptInterface
+        public void backToApp(){
+        
+            finish();
+        } 
+        
 
 
         /**
@@ -283,6 +299,7 @@ public class H5Activity extends BaseActivity implements UIDataListener {
         }
     }
 
+    
     /**
      * 分享回调
      */
